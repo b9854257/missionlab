@@ -1,0 +1,28 @@
+
+version: '3'
+services:
+  jupyter-tutorial:
+    #抓取image 並命名
+    image: jupyter/base-notebook
+    container_name: jupyter.local
+    user: root
+    environment:
+      - GRANT_SUDO=yes
+    #瀏覽器連接port
+    ports:
+      - "8888:8888"
+      - "5000:5000"
+    #連接本地端資料夾 做存取空間
+    volumes:
+      - ./work/:/home/jovyan/work
+
+    command: start-notebook.sh --NotebookApp.token=''
+  db:
+    image: mariadb
+    container_name: cc104.rds.local
+
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: hahaha
+    volumes:
+      - ./data/:/var/lib/mysql
